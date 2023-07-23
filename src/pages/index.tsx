@@ -1,9 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { getSession, signIn, signOut, useSession } from "next-auth/react";
 import { useColorMode } from "@chakra-ui/react";
+import { NextPage, NextPageContext } from "next";
 
-export default function Home() {
+const Home: NextPage = () => {
   const { data } = useSession();
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === "dark";
@@ -26,14 +27,6 @@ export default function Home() {
             >
               Sign Out
             </button>
-            <p>{data?.user?.email}</p>
-            <p>{data?.user?.name}</p>
-            <Image
-              src={data?.user?.image || ""}
-              width={100}
-              height={100}
-              alt={data?.user?.name || ""}
-            />
           </>
         ) : (
           <button
@@ -47,9 +40,12 @@ export default function Home() {
       </main>
     </>
   );
-}
-export async function getServerSideProps(context = {}) {
+};
+export default Home;
+
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context);
   return {
-    props: {},
+    props: { session },
   };
 }
