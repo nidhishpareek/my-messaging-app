@@ -1,15 +1,15 @@
-import Head from "next/head";
-import Image from "next/image";
-import { getSession, signIn, signOut, useSession } from "next-auth/react";
 import { useColorMode } from "@chakra-ui/react";
 import { NextPage, NextPageContext } from "next";
-
+import { getSession, useSession } from "next-auth/react";
+import Head from "next/head";
+import Auth from "./components/auth/AuthComponent";
+import Chat from "./components/chat/Chat";
 const Home: NextPage = () => {
-  const { data } = useSession();
+  const { data: session } = useSession();
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === "dark";
 
-  console.log(data);
+  console.log(session);
   return (
     <>
       <Head>
@@ -18,24 +18,11 @@ const Home: NextPage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main>
-        {data ? (
-          <>
-            <button
-              onClick={() => {
-                signOut();
-              }}
-            >
-              Sign Out
-            </button>
-          </>
+        {session?.user?.username ? (
+          <Chat></Chat>
         ) : (
-          <button
-            onClick={() => {
-              signIn("google");
-            }}
-          >
-            Sign In
-          </button>
+          // TODO: add revalidate session
+          <Auth session={session}></Auth>
         )}
       </main>
     </>
