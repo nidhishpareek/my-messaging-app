@@ -3,7 +3,7 @@ import { signIn } from "next-auth/react";
 import { Title } from "../common/TextTypes";
 
 export const SignInComponent = () => (
-  <Stack>
+  <Stack textAlign="center">
     <Title>Sign In</Title>
 
     <Button
