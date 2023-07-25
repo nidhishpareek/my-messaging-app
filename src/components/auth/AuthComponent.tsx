@@ -22,7 +22,7 @@ export const TakeUserName = () => {
   };
 
   return (
-    <Stack>
+    <Stack textAlign={"center"}>
       <Title>Enter your username</Title>
       <form onSubmit={onSubmit}>
         <Stack gap={"2rem"}>
@@ -40,15 +40,11 @@ export const TakeUserName = () => {
 const Auth: React.FC<IAuthProps> = ({ session }) => {
   return (
     <Center height={FULL_VIEWPORT_HEIGHT}>
-      <Card w="sm" h={"md"}>
-        <CardBody textAlign={"center"}>
-          {session ? (
-            <TakeUserName></TakeUserName>
-          ) : (
-            <SignInComponent></SignInComponent>
-          )}
-        </CardBody>
-      </Card>
+      {session ? (
+        <TakeUserName></TakeUserName>
+      ) : (
+        <SignInComponent></SignInComponent>
+      )}
     </Center>
   );
 };
