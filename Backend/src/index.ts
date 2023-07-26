@@ -5,13 +5,18 @@ import {
 } from "apollo-server-core";
 import express from "express";
 import http from "http";
+import typeDefs from "./GraphQL/typedefs/index";
+import resolvers from "./GraphQL/resolvers/index";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 
-async function main(typeDefs, resolvers) {
+async function main() {
   const app = express();
   const httpServer = http.createServer(app);
+
+  const schema = makeExecutableSchema({ typeDefs, resolvers });
+
   const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema,
     csrfPrevention: true,
     cache: "bounded",
     plugins: [
