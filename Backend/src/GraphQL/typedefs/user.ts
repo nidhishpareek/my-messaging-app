@@ -5,7 +5,7 @@ const typedef = gql`
     id: ID!
     userName: String
     email: String
-    image: Image
+    # image: Image
   }
 
   type Query {

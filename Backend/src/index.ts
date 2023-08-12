@@ -14,7 +14,10 @@ async function main() {
   const httpServer = http.createServer(app);
 
   const schema = makeExecutableSchema({ typeDefs, resolvers });
-
+  const corsOption = {
+    origin: process.env.CLIENT_ORIGIN,
+    Credential: true,
+  };
   const server = new ApolloServer({
     schema,
     csrfPrevention: true,
@@ -25,7 +28,7 @@ async function main() {
     ],
   });
   await server.start();
-  server.applyMiddleware({ app });
+  server.applyMiddleware({ app, cors: corsOption });
   await new Promise<void>((resolve) =>
     httpServer.listen({ port: 4000 }, resolve)
   );

@@ -3,7 +3,7 @@ const resolver = {
     searchUser: () => {},
   },
   Mutation: {
-    createUser: () => {},
+    createUserName: () => {},
   },
 };
 export default resolver;
