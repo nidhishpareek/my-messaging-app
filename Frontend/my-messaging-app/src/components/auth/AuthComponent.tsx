@@ -4,7 +4,7 @@ import { Session } from "next-auth";
 import { useState } from "react";
 import { Title } from "../common/TextTypes";
 import { SignInComponent } from "./SignIn";
-
+import { useUserName } from "@/GraphQl/Hooks/useUserName";
 // TODO: add revalidate session
 interface IAuthProps {
   session: Session | null;
@@ -13,9 +13,13 @@ interface IAuthProps {
 export const TakeUserName = () => {
   // TODO: change this to react hook form
   const [userName, setUserName] = useState("");
+  const {
+    mutation: { data, loading, error },
+    createUserNameFn,
+  } = useUserName();
   const onSubmit = async () => {
-    //API for gql mutation
     try {
+      createUserNameFn({ userName });
     } catch (err) {
       console.log(err);
     }
