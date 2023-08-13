@@ -5,15 +5,19 @@ const typedef = gql`
     id: ID!
     userName: String
     email: String
-    image: Image
+    image: String
   }
 
   type Query {
     searchUser(userName: String!): User
   }
 
+  input UserNameInput {
+    userName: String
+  }
+
   type Mutation {
-    createUserName(userName: String): CreateUserNameResult
+    createUserName(input: UserNameInput!): CreateUserNameResult
   }
 
   type CreateUserNameResult {
