@@ -3,17 +3,17 @@ import { gql } from "apollo-server-core";
 const typedef = gql`
   type User {
     id: ID!
-    userName: String
+    username: String
     email: String
     image: String
   }
 
   type Query {
-    searchUser(userName: String!): User
+    searchUser(username: String!): User
   }
 
   input UserNameInput {
-    userName: String
+    username: String
   }
 
   type Mutation {
