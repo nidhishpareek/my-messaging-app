@@ -10,5 +10,5 @@ export interface CreateUserNameOutput {
 }
 
 export interface CreateUserNameInput {
-  userName: String;
+  username: String;
 }

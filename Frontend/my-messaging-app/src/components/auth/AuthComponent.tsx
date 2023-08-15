@@ -12,15 +12,15 @@ interface IAuthProps {
 
 export const TakeUserName = () => {
   // TODO: change this to react hook form
-  const [userName, setUserName] = useState("");
+  const [username, setUserName] = useState("");
   const {
     mutation: { data, loading, error },
     createUserNameFn,
   } = useUserName();
   const onSubmit = async () => {
-    if (!userName) return;
+    if (!username) return;
     try {
-      await createUserNameFn({ userName });
+      await createUserNameFn({ username });
     } catch (err) {
       console.log(err);
     }

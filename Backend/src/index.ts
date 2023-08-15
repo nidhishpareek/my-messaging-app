@@ -12,11 +12,13 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { GraphQLContext } from "./Utils/types";
 import { getServerSession } from "./Utils/functions";
+import { PrismaClient } from "@prisma/client";
 
 async function main() {
   dotenv.config();
   const app = express();
   const httpServer = http.createServer(app);
+  const prisma = new PrismaClient();
 
   const corsOptions: cors.CorsOptions = {
     origin: process.env.ORIGIN_DOMAIN,
@@ -32,7 +34,7 @@ async function main() {
 
     context: async ({ req, res }): Promise<GraphQLContext> => {
       const session = await getServerSession(req?.headers?.cookie || "");
-      return { session };
+      return { session, prisma };
     },
 
     plugins: [
