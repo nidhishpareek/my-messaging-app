@@ -18,6 +18,7 @@ export const TakeUserName = () => {
     createUserNameFn,
   } = useUserName();
   const onSubmit = async () => {
+    if (!userName) return;
     try {
       await createUserNameFn({ userName });
     } catch (err) {
