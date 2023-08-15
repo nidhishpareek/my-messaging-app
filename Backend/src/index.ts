@@ -9,15 +9,15 @@ import typeDefs from "./GraphQL/typedefs/index";
 import resolvers from "./GraphQL/resolvers/index";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import cors from "cors";
-import "dotenv/config";
+import dotenv from "dotenv";
 
 async function main() {
+  dotenv.config();
   const app = express();
   const httpServer = http.createServer(app);
 
-  // TODO:Take origin from the local-host
   const corsOptions: cors.CorsOptions = {
-    origin: ["http://localhost:3000"],
+    origin: process.env.ORIGIN_DOMAIN,
     credentials: true,
   };
 
