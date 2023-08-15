@@ -10,6 +10,8 @@ import resolvers from "./GraphQL/resolvers/index";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import cors from "cors";
 import dotenv from "dotenv";
+import { GraphQLContext } from "./Utils/types";
+import { getServerSession } from "./Utils/functions";
 
 async function main() {
   dotenv.config();
@@ -27,6 +29,12 @@ async function main() {
     schema,
     csrfPrevention: true,
     cache: "bounded",
+
+    context: async ({ req, res }): Promise<GraphQLContext> => {
+      const session = await getServerSession(req?.headers?.cookie || "");
+      return { session };
+    },
+
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
       ApolloServerPluginLandingPageLocalDefault({ embed: true }),
