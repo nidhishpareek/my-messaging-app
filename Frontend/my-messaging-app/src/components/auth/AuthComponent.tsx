@@ -1,7 +1,7 @@
 import { FULL_VIEWPORT_HEIGHT } from "@/theme/constants";
 import { Button, Card, CardBody, Center, Input, Stack } from "@chakra-ui/react";
 import { Session } from "next-auth";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Title } from "../common/TextTypes";
 import { SignInComponent } from "./SignIn";
 import { useUserName } from "@/GraphQl/Hooks/useUserName";
@@ -17,7 +17,8 @@ export const TakeUserName = () => {
     mutation: { data, loading, error },
     createUserNameFn,
   } = useUserName();
-  const onSubmit = async () => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!username) return;
     try {
       await createUserNameFn({ username });

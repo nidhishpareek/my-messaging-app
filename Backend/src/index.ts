@@ -30,8 +30,6 @@ async function main() {
     credentials: true,
   };
 
-  app.use(cors(corsOptions));
-
   const server = new ApolloServer<MyContext>({
     schema,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
@@ -40,7 +38,7 @@ async function main() {
   await server.start();
   app.use(
     "/graphql",
-    cors<cors.CorsRequest>(),
+    cors<cors.CorsRequest>(corsOptions),
     json(),
     expressMiddleware(server, {
       context: async ({ req }): Promise<GraphQLContext> => {
