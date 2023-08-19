@@ -20,9 +20,10 @@ export const TakeUserName = () => {
   const onSubmit = async () => {
     if (!username) return;
     try {
-      await createUserNameFn({ username });
+      const usernameCreate = await createUserNameFn({ username });
+      console.log("username response of create", usernameCreate);
     } catch (err) {
-      console.log(err);
+      console.log("err", err);
     }
   };
 

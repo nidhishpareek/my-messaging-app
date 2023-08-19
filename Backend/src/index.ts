@@ -14,10 +14,6 @@ import { GraphQLContext, SessionX } from "./Utils/types";
 import { getServerSession } from "./Utils/functions";
 import { PrismaClient } from "@prisma/client";
 
-interface MyContext {
-  token?: String;
-}
-
 async function main() {
   dotenv.config();
   const app = express();
@@ -32,7 +28,7 @@ async function main() {
 
   app.use(cors(corsOptions));
 
-  const server = new ApolloServer<MyContext>({
+  const server = new ApolloServer<GraphQLContext>({
     schema,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
