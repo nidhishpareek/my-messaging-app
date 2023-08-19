@@ -10,7 +10,7 @@ import resolvers from "./GraphQL/resolvers/index";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import cors from "cors";
 import dotenv from "dotenv";
-import { GraphQLContext } from "./Utils/types";
+import { GraphQLContext, SessionX } from "./Utils/types";
 import { getServerSession } from "./Utils/functions";
 import { PrismaClient } from "@prisma/client";
 
@@ -33,7 +33,9 @@ async function main() {
     cache: "bounded",
 
     context: async ({ req, res }): Promise<GraphQLContext> => {
-      const session = await getServerSession(req?.headers?.cookie || "");
+      const session: SessionX = await getServerSession(
+        req?.headers?.cookie || ""
+      );
       return { session, prisma };
     },
 

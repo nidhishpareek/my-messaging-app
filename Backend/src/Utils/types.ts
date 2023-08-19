@@ -5,12 +5,12 @@ export interface UserX extends User {
   id: string;
   username: string;
 }
-export interface Session {
+export interface SessionX {
   user: UserX;
 }
 export interface CreateUserNameOutPut {
-  success: boolean;
-  error: string;
+  success?: boolean;
+  error?: string;
 }
 
 export interface UserNameArgs {
@@ -20,11 +20,6 @@ export interface UserNameArgs {
 }
 
 export interface GraphQLContext {
-  session: Session | null | undefined;
+  session: SessionX | null | undefined;
   prisma: PrismaClient;
-}
-
-export interface CreateUserNameOutPut {
-  success: boolean;
-  error: string;
 }
