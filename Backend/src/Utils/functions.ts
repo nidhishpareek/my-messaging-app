@@ -30,6 +30,7 @@ export const createUserName = async (props: {
         username,
       },
     });
+    console.log("create username success");
     return { success: true, error: undefined };
   } catch (err: any) {
     return { success: false, error: "Failed" };
