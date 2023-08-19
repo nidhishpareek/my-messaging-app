@@ -1,3 +1,4 @@
+import { createUserName } from "../../Utils/functions";
 import {
   CreateUserNameOutPut,
   GraphQLContext,
@@ -15,9 +16,8 @@ const resolver = {
       context: GraphQLContext
     ): Promise<CreateUserNameOutPut> => {
       const { prisma, session } = context;
-      console.log("input", args.input);
-      console.log("contest", context);
 
+      const username: string = args.input.username;
       if (!session?.user) {
         return {
           success: false,
@@ -25,9 +25,8 @@ const resolver = {
         };
       }
 
-      const { id } = session.user || {};
-
-      return { success: true, error: "failed" };
+      const { id } = session?.user || {};
+      return await createUserName({ username, prisma, id });
     },
   },
 };
