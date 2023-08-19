@@ -1,10 +1,8 @@
 export interface CreateUserNameOutput {
-  error: any;
-  loading: boolean;
-  data: {
+  data?: {
     createUserName: {
-      success: boolean;
-      error: string;
+      success?: boolean;
+      error?: string;
     };
   };
 }
