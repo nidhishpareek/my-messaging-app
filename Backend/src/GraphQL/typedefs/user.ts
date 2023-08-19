@@ -22,7 +22,7 @@ const typedef = gql`
 
   type CreateUserNameResult {
     success: Boolean
-    error: Boolean
+    error: String
   }
 `;
 export default typedef;

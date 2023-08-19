@@ -21,7 +21,7 @@ export const createUserName = async (props: {
     });
 
     if (existingUser) {
-      return { success: false, error: "Username is already taken" };
+      throw new Error("Username is already taken");
     }
 
     await prisma.user.update({
@@ -30,9 +30,13 @@ export const createUserName = async (props: {
         username,
       },
     });
-    console.log("create username success");
-    return { success: true, error: undefined };
+    console.log("Create username success");
+    return { success: true };
   } catch (err: any) {
-    return { success: false, error: "Failed" };
+    console.log("Create username failed", err.message);
+    return {
+      success: false,
+      error: err.message || "Failed to create the username",
+    };
   }
 };

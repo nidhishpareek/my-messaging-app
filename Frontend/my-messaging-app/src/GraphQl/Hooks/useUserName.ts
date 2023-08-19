@@ -9,10 +9,13 @@ export const useUserName = (skip?: Boolean) => {
 
   const [createUserName, mutation] = useMutation(MUTATE_USER_NAME);
 
-  const createUserNameFn = async (input: CreateUserNameInput) =>
-    await createUserName({
+  const createUserNameFn = async (input: CreateUserNameInput) => {
+    const a: CreateUserNameOutput = await createUserName({
       variables: { input },
     });
+
+    return a?.data?.createUserName || {};
+  };
 
   return { createUserNameFn, mutation };
 };

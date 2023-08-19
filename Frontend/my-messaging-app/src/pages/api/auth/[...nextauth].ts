@@ -15,6 +15,10 @@ export default NextAuth({
   ],
   secret: process.env.NEXT_AUTH_SECRET,
   callbacks: {
+    async redirect({ baseUrl }) {
+      return baseUrl;
+    },
+
     async session({ session, user }) {
       session.user = { ...user };
       return session;

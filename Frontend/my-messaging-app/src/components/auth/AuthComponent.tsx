@@ -1,11 +1,13 @@
 import { FULL_VIEWPORT_HEIGHT } from "@/theme/constants";
-import { Button, Card, CardBody, Center, Input, Stack } from "@chakra-ui/react";
+import { Button, Center, Input, Stack, useToast } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import { FormEvent, useState } from "react";
 import { Title } from "../common/TextTypes";
 import { SignInComponent } from "./SignIn";
 import { useUserName } from "@/GraphQl/Hooks/useUserName";
-// TODO: add revalidate session
+import { useSession } from "next-auth/react";
+import { usernamePattern } from "@/util/constants";
+
 interface IAuthProps {
   session: Session | null;
 }
@@ -13,17 +15,47 @@ interface IAuthProps {
 export const TakeUserName = () => {
   // TODO: change this to react hook form
   const [username, setUserName] = useState("");
+  const { update } = useSession();
+  const toast = useToast();
+
   const {
-    mutation: { data, loading, error },
+    mutation: { loading },
     createUserNameFn,
   } = useUserName();
+
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!username) return;
+    toast.closeAll();
+
+    if (loading) return;
+    if (!username || !usernamePattern.test(username)) {
+      toast({
+        title: `Please enter a valid username`,
+        variant: "solid",
+        status: "error",
+        isClosable: true,
+      });
+      return;
+    }
+
     try {
-      await createUserNameFn({ username });
-    } catch (err) {
+      const { success, error } = await createUserNameFn({ username });
+      if (error) throw new Error(error);
+      toast({
+        title: `Username added successfully`,
+        variant: "left-accent",
+        status: "success",
+        isClosable: true,
+      });
+      if (success) update();
+    } catch (err: any) {
       console.log(err);
+      toast({
+        title: err.message || "Username update failed",
+        variant: "solid",
+        status: "error",
+        isClosable: true,
+      });
     }
   };
 
@@ -33,7 +65,7 @@ export const TakeUserName = () => {
       <form onSubmit={onSubmit}>
         <Stack gap={"2rem"}>
           <Input onChange={(e) => setUserName(e.target.value)} />
-          <Button type="submit" w={"100%"}>
+          <Button type="submit" w={"100%"} disabled={loading}>
             Submit
           </Button>
         </Stack>

@@ -6,10 +6,7 @@ import Auth from "../components/auth/AuthComponent";
 import Chat from "../components/chat/Chat";
 const Home: NextPage = () => {
   const { data: session } = useSession();
-  const { colorMode, toggleColorMode } = useColorMode();
-  const isDark = colorMode === "dark";
 
-  console.log(session);
   return (
     <>
       <Head>
@@ -21,7 +18,6 @@ const Home: NextPage = () => {
         {session?.user?.username ? (
           <Chat></Chat>
         ) : (
-          // TODO: add revalidate session
           <Auth session={session}></Auth>
         )}
       </main>
