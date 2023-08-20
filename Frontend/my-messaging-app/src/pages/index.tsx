@@ -1,9 +1,10 @@
-import { useColorMode } from "@chakra-ui/react";
 import { NextPage, NextPageContext } from "next";
 import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
 import Auth from "../components/auth/AuthComponent";
 import Chat from "../components/chat/Chat";
+import "@testing-library/jest-dom";
+
 const Home: NextPage = () => {
   const { data: session } = useSession();
 
