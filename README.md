@@ -1,6 +1,6 @@
 # my-messaging-app
 
-Hello,
+Hello, fellow dev,
 
 DECLARATION => This Project is created for the non-profit, and learning purposes.
 
