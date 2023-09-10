@@ -15,5 +15,8 @@ Tech Stack =>
 - Mongo DB
 - TypeScript
 - Jest
+- React Hook Form
+- Yup Validation
+- ES Lint
 
 COPYRIGHT => Athough this project is not legally registered
