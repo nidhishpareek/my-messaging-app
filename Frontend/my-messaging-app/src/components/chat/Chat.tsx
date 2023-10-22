@@ -1,14 +1,14 @@
-import { Button } from "@chakra-ui/react";
-import { signOut } from "next-auth/react";
+import { Flex } from "@chakra-ui/react";
 
-interface IChatProps {}
+import { ChatRoom } from "./ChatRoom";
+import { SideBar } from "./Sidebar";
 
-const Chat: React.FC<IChatProps> = (props) => {
+const Chat = () => {
   return (
-    <>
-      <div>Chat</div>
-      <Button onClick={() => signOut()}>Logout</Button>
-    </>
+    <Flex>
+      <SideBar />
+      <ChatRoom />
+    </Flex>
   );
 };
 
