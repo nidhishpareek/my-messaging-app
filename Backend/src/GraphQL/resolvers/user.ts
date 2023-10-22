@@ -1,3 +1,4 @@
+import { sessionCheck } from "./../../Functions/sessionCheck";
 import { createUserName } from "../../Utils/functions";
 import {
   CreateUserNameOutPut,
@@ -7,7 +8,11 @@ import {
 
 const resolver = {
   Query: {
-    searchUser: () => {},
+    searchUser: (parent: any, args: UserNameArgs, context: GraphQLContext) => {
+      sessionCheck(context);
+      const username: string = args.input.username;
+      const { prisma, session } = context;
+    },
   },
   Mutation: {
     createUserName: async (
