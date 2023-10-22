@@ -1,23 +1,23 @@
 import { FULL_VIEWPORT_HEIGHT } from "@/theme/constants";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { CreateUserNameInput } from "@/util/types";
 import { Button, Center, Stack, useToast } from "@chakra-ui/react";
 import { Session } from "next-auth";
-import { SignInComponent } from "./SignIn";
-import { useUserName } from "@/GraphQl/Hooks/useUserName";
 import { useSession } from "next-auth/react";
+import { useUserName } from "@/GraphQl/Hooks/useUserName";
 import { usernamePattern } from "@/util/constants";
 import { FormProvider, useForm } from "react-hook-form";
 import { object, string } from "yup";
+
+import { SignInComponent } from "./SignIn";
 import { ControlledInput } from "../Form/Input";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { CreateUserNameInput } from "@/util/types";
 import { Title } from "../common/TextTypes";
 
 interface IAuthProps {
   session: Session | null;
 }
 
-const usernameForm: Record<string, any> = {
-  sequence: ["username"],
+const usernameForm: (show: string[]) => Record<string, any> = (show) => ({
   formTitle: "Welcome aboard",
   schema: object({
     username: string()
@@ -26,21 +26,24 @@ const usernameForm: Record<string, any> = {
       .matches(usernamePattern, "Username must be alphanumeric, _ or .")
       .required("The UserName is required"),
   }),
-  username: {
-    id: "1",
-    Comp: ControlledInput,
-    name: "username",
-    placeholder: "Enter your signature name",
-    label: "Enter your username",
+  formElements: {
+    username: {
+      id: "1",
+      Comp: ControlledInput,
+      name: "username",
+      placeholder: "Enter your signature name",
+      label: "Enter your username",
+    },
   },
-};
+});
 
 export const TakeUserName = () => {
   const { update } = useSession();
   const toast = useToast();
-
+  const formFields = ["username"];
+  const { schema, formTitle, formElements } = usernameForm(formFields);
   const formData = useForm<CreateUserNameInput>({
-    resolver: yupResolver(usernameForm.schema),
+    resolver: yupResolver(schema),
   });
 
   const {
@@ -74,16 +77,12 @@ export const TakeUserName = () => {
       <FormProvider {...formData}>
         <form onSubmit={formData.handleSubmit(onSubmit)}>
           <Stack gap={"2rem"}>
-            <Title>{usernameForm?.formTitle}</Title>
-            {usernameForm?.sequence?.map((elementName: string) => {
-              if (!usernameForm?.[elementName]) return null;
-              const { Comp, ...props } = usernameForm[elementName];
+            <Title>{formTitle}</Title>
+            {formFields?.map((elementName: string) => {
+              if (![elementName]) return null;
+              const { Comp, ...props } = formElements[elementName];
               return (
-                <Comp
-                  key={props.id}
-                  {...props}
-                  focusFlow={usernameForm.sequence}
-                ></Comp>
+                <Comp key={props.id} {...props} focusFlow={formFields}></Comp>
               );
             })}
             <Button
