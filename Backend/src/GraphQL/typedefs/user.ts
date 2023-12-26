@@ -9,7 +9,7 @@ const typedef = gql`
   }
 
   type Query {
-    searchUser(username: String!): User
+    searchUser(username: String!): [User]
   }
 
   input UserNameInput {
